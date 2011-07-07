@@ -3,9 +3,20 @@
     = @user.name
 
   .similarity
+    %h2
+      Similar DJs
     - User.similar_to(@user).each do |rating, user|
       .other_user
         = "#{rating.to_s[0..4]}: #{user.name}"
+  
+  .plays
+    %h2
+      Plays
+    - @user.plays.each do |play|
+      - meta = play.meta
+      .play
+        = "#{meta.artist} - #{meta.song}"
+    
   
   .history
     %h2

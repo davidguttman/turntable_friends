@@ -36,11 +36,15 @@ class User
   end
     
   def votes
-    votes = Vote.all(:user_id => self.id.to_s)
+    votes = Vote.all(:user_id => self.id.to_s, :dj_id => {:$ne => self.id.to_s})
+  end
+  
+  def plays
+    plays = Vote.all(:user_id => self.id.to_s, :dj_id => self.id.to_s).map {|vote| vote.song}
   end
   
   def upvotes
-    votes = Vote.all(:dj_id => self.id.to_s, :value => "up")
+    votes = Vote.all(:dj_id => self.id.to_s, :value => "up", :user_id => {:$ne => self.id.to_s})
   end
   
   def downvotes
