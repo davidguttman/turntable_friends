@@ -1020,14 +1020,16 @@ DGSTUFF.update_users = function(user) {
 }
 
 DGSTUFF.log_vote = function(currentVote) {
-  DGSTUFF.update_songs(TFMEX.roomInfo.currentSong);
-  DGSTUFF.update_users(TFMEX.roomInfo.users[currentVote[0]]);
   
   var songname = TFMEX.roomInfo.currentSong.metadata.song,
       song_id = TFMEX.roomInfo.currentSong['_id'],
       current_dj_id = TFMEX.roomInfo.currentDj,
       vote_name = TFMEX.roomInfo.users[currentVote[0]].name,
       vote_value = currentVote[1];
+      
+  DGSTUFF.update_songs(TFMEX.roomInfo.currentSong);
+  DGSTUFF.update_users(TFMEX.roomInfo.users[currentVote[0]]);
+  DGSTUFF.update_users(TFMEX.roomInfo.users[current_dj_id]);
       
   var vote = {
     user_id: currentVote[0],
