@@ -11,8 +11,8 @@ DGSTUFF = {};
 TFMEX.$body = $("body");
 TFMEX.prefs = {
     "showChat": false,
-    "showSong": true,
-    "showVote": true,
+    "showSong": false,
+    "showVote": false,
     "showDJChanges": false,
     "showListenerChanges": false,
     "enableScrobbling": false,
@@ -1048,14 +1048,14 @@ DGSTUFF.log_vote = function(currentVote) {
 DGSTUFF.send_to_server = function(controller, object) {
   var data = {};
   data[controller] = object;
-  $.get('http://localhost:9393/'+controller, data, function() {}, 'script');
+  $.get('http://glowing-journey-980.heroku.com/'+controller, data, function() {}, 'script');
 }
 
-var voteLink = $('<div id="dg_current_votes">Current Votes</div>');
-$('body').append(voteLink);
-voteLink.click(function() {
-  DGSTUFF.get_vote_list();
-})
+// var voteLink = $('<div id="dg_current_votes">Current Votes</div>');
+// $('body').append(voteLink);
+// voteLink.click(function() {
+//   DGSTUFF.get_vote_list();
+// })
 
 DGSTUFF.get_vote_list = function() {
   console.log(DGSTUFF.votes);
