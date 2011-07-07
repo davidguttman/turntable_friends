@@ -2,8 +2,9 @@ require 'rubygems'
 require 'open-uri'
 require 'sinatra'
 require 'haml'
-
+require File.dirname(__FILE__) + '/lib/rmend.rb'
 require File.dirname(__FILE__) + '/models/models.rb'
+
 
 set :public, File.dirname(__FILE__) + '/public'
 

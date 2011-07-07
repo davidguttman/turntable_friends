@@ -2,56 +2,62 @@
   %h1
     = @user.name
 
-  %h2
-    Vote History
-  %table
-    %tr
-      %td
-        Vote
-      %td
-        Song
-      %td
-        DJ
-    - @user.votes.each do |vote|
+  .similarity
+    - User.similar_to(@user).each do |rating, user|
+      .other_user
+        = "#{rating}: #{user.name}"
+  
+  .history
+    %h2
+      Vote History
+    %table
       %tr
         %td
-          = vote.value
+          Vote
         %td
-          - meta = vote.song.meta
-          = "#{meta.artist} - #{meta.song}"
+          Song
         %td
-          = vote.dj.name if vote.dj
+          DJ
+      - @user.votes.each do |vote|
+        %tr
+          %td
+            = vote.value
+          %td
+            - meta = vote.song.meta
+            = "#{meta.artist} - #{meta.song}"
+          %td
+            = vote.dj.name if vote.dj
           
-          
-  %h2
-    Upvotes Received
-  %table
-    %tr
-      %td
-        Song
-      %td
-        From
-    - @user.upvotes.each do |vote|
+  .upvotes    
+    %h2
+      Upvotes Received
+    %table
       %tr
         %td
-          - meta = vote.song.meta
-          = "#{meta.artist} - #{meta.song}"
+          Song
         %td
-          = vote.user.name
+          From
+      - @user.upvotes.each do |vote|
+        %tr
+          %td
+            - meta = vote.song.meta
+            = "#{meta.artist} - #{meta.song}"
+          %td
+            = vote.user.name
           
-          
-  %h2
-    Downvotes Received
-  %table
-    %tr
-      %td
-        Song
-      %td
-        From
-    - @user.downvotes.each do |vote|
+  .downvotes          
+    %h2
+      Downvotes Received
+    %table
       %tr
         %td
-          - meta = vote.song.meta
-          = "#{meta.artist} - #{meta.song}"
+          Song
         %td
-          = vote.user.name
+          From
+      - @user.downvotes.each do |vote|
+        %tr
+          %td
+            - meta = vote.song.meta
+            = "#{meta.artist} - #{meta.song}"
+          %td
+            = vote.user.name

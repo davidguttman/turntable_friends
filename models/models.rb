@@ -19,6 +19,21 @@ class User
   include MongoMapper::Document
   set_collection_name 'users'
   timestamps!
+  
+  def self.similar_to(user)
+    prefs = self.all_prefs
+    r = Rmend.new
+    matches = r.top_matches(prefs, user.id.to_s, prefs.size)
+    matches.map {|rating| [rating[0], User.find(rating[1])]}
+  end
+  
+  def self.all_prefs
+    prefs = {}
+    self.all.each do |user|
+      prefs[user.id.to_s] = user.prefs
+    end
+    prefs
+  end
     
   def votes
     votes = Vote.all(:user_id => self.id.to_s)
@@ -30,6 +45,14 @@ class User
   
   def downvotes
     votes = Vote.all(:dj_id => self.id.to_s, :value => "down")    
+  end
+  
+  def prefs
+    prefs = {}
+    self.votes.each do |vote|
+      prefs[vote.song_id] = vote.value == "up" ? 1 : -1
+    end
+    prefs
   end
 end
 
@@ -63,7 +86,12 @@ class Vote
   def song
     Song.find(self.song_id)
   end
+  
+  def to_pref
+    self.song_id + ':' + self.value
+  end
 end
 
+# require File.dirname(__FILE__) + '/lib/rmend.rb'
 # require 'pry'
 # binding.pry
