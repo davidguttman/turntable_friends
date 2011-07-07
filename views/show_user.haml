@@ -5,7 +5,7 @@
   .similarity
     - User.similar_to(@user).each do |rating, user|
       .other_user
-        = "#{rating}: #{user.name}"
+        = "#{rating.to_s[0..4]}: #{user.name}"
   
   .history
     %h2
