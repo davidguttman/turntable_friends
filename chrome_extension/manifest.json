@@ -1,0 +1,22 @@
+{
+  "name": "Turntable.fm Extended",
+  "version": "0.3.5.1",
+  "description": "Adds desktop notifications, suggested tracks, last.fm scrobbling and other additional features to turntable.fm",
+  "icons": { "16":"images/turntable-fm-16.png",
+			 "48":"images/turntable-fm-48.png",
+			 "128":"images/turntable-fm-128.png" },
+  "background_page": "background.html",
+  "content_scripts": [
+    {
+      "matches": ["http://turntable.fm/*"],
+      "css": ["css/turntable.fm.extend.css"],
+      "js": ["js/jquery.1.6.1.min.js", "js/contentscript.js", "js/injectScript.js"]
+    }
+  ],
+  "permissions": [
+	"tabs",
+	"notifications",
+	"http://turntable.fm/*",
+    "http://ws.audioscrobbler.com/*"
+  ]
+}

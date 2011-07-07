@@ -1,0 +1,6 @@
+sinatra
+bson
+bson_ext
+mongo
+il8n
+mongo_mapper
