@@ -22,7 +22,7 @@ get '/users/:id' do
 end
 
 get '/user' do
-  add_object(User, params['user'])
+  TT.add_object(User, params['user'])
   # if user = User.find(params['user']['_id'])
   #   user.update_attributes(params['user'])
   # else
@@ -31,27 +31,19 @@ get '/user' do
 end
 
 get '/song' do
-  add_object(Song, params['song'])
+  TT.add_object(Song, params['song'])
   # song = Song.new(params['song']).to_mongo 
   # Song.collection.update(song, song, :upsert => true)
 end
 
 get '/vote' do
-  add_object(Vote, params['vote'])
+  TT.add_object(Vote, params['vote'])
   # vote = Vote.new(params['vote']).to_mongo 
   # Vote.collection.update(vote, vote, :upsert => true)
 end
 
 get '/b' do
   open(params[:url]).read
-end
-
-def add_object(object_class, object)
-  if persisted = object_class.find(object['_id'])
-    persisted.update_attributes(object)
-  else
-    object_class.create(object)
-  end
 end
 
 run Sinatra::Application

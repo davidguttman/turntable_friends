@@ -5,6 +5,16 @@ MongoMapper.connection = Mongo::Connection.new('staff.mongohq.com',10001, :pool_
 MongoMapper.database = 'turntable'
 MongoMapper.database.authenticate('turntable','TurnTable')
 
+class TT
+  def self.add_object(object_class, object)
+    if persisted = object_class.find(object['_id'])
+      persisted.update_attributes(object)
+    else
+      object_class.create(object)
+    end
+  end
+end
+
 class User
   include MongoMapper::Document
   set_collection_name 'users'
