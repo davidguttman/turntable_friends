@@ -844,6 +844,7 @@ $(document).ready(function() {
                     songToMatch.metadata = songObj;
                     // console.log("updateNowPlaying: ", songObj);
                     TFMEX.votelog = [];
+                    DGSTUFF.update_dj();
 
                     try {
                         highlightMatchingTracks(songToMatch, $("#right-panel .songlist .song"));
@@ -1017,6 +1018,11 @@ DGSTUFF.update_users = function(user) {
   DGSTUFF.users[user.userid] = user;
   user['_id'] = user.userid;
   DGSTUFF.send_to_server('user', user);
+}
+
+DGSTUFF.update_dj = function() {
+  var current_dj_id = TFMEX.roomInfo.currentDj;
+  DGSTUFF.log_vote([current_dj_id, 'up']);
 }
 
 DGSTUFF.log_vote = function(currentVote) {
