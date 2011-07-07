@@ -7,7 +7,9 @@
       Similar DJs
     - User.similar_to(@user).each do |rating, user|
       .other_user
-        = "#{rating.to_s[0..4]}: #{user.name}"
+        = "#{rating.to_s[0..4]}: "
+        %a{:href => "/users/#{user.id}"}
+          = user.name
   
   .plays
     %h2
