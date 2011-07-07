@@ -1,0 +1,22 @@
+.user
+  %h1
+    = @user.name
+  %h2
+    Votes
+  %table
+    %tr
+      %td
+        Vote
+      %td
+        Song
+      %td
+        DJ
+    - @user.votes.each do |vote|
+      %tr
+        %td
+          = vote.value
+        %td
+          - meta = vote.song.meta
+          = "#{meta.artist} - #{meta.song}"
+        %td
+          = vote.dj.name if vote.dj
