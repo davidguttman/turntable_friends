@@ -1,8 +1,9 @@
 .user
   %h1
     = @user.name
+
   %h2
-    Votes
+    Vote History
   %table
     %tr
       %td
@@ -20,3 +21,37 @@
           = "#{meta.artist} - #{meta.song}"
         %td
           = vote.dj.name if vote.dj
+          
+          
+  %h2
+    Upvotes Received
+  %table
+    %tr
+      %td
+        Song
+      %td
+        DJ
+    - @user.upvotes.each do |vote|
+      %tr
+        %td
+          - meta = vote.song.meta
+          = "#{meta.artist} - #{meta.song}"
+        %td
+          = vote.user.name
+          
+          
+  %h2
+    Downvotes Received
+  %table
+    %tr
+      %td
+        Song
+      %td
+        DJ
+    - @user.downvotes.each do |vote|
+      %tr
+        %td
+          - meta = vote.song.meta
+          = "#{meta.artist} - #{meta.song}"
+        %td
+          = vote.user.name

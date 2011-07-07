@@ -13,6 +13,14 @@ class User
   def votes
     votes = Vote.all(:user_id => self.id.to_s)
   end
+  
+  def upvotes
+    votes = Vote.all(:dj_id => self.id.to_s, :value => "up")
+  end
+  
+  def downvotes
+    votes = Vote.all(:dj_id => self.id.to_s, :value => "down")    
+  end
 end
 
 class Song
