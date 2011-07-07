@@ -1015,6 +1015,7 @@ DGSTUFF.update_songs = function(song) {
 
 DGSTUFF.update_users = function(user) {
   DGSTUFF.users[user.userid] = user;
+  user['_id'] = user.userid;
   DGSTUFF.send_to_server('user', user);
 }
 
@@ -1024,14 +1025,18 @@ DGSTUFF.log_vote = function(currentVote) {
   
   var songname = TFMEX.roomInfo.currentSong.metadata.song,
       song_id = TFMEX.roomInfo.currentSong['_id'],
+      current_dj_id = TFMEX.roomInfo.currentDj,
       vote_name = TFMEX.roomInfo.users[currentVote[0]].name,
       vote_value = currentVote[1];
       
   var vote = {
     user_id: currentVote[0],
     song_id: song_id,
+    dj_id: current_dj_id,
     value: vote_value
   };
+  
+  vote['_id'] = vote.user_id + vote.song_id;
   
   DGSTUFF.send_to_server('vote', vote);
   
