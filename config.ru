@@ -5,7 +5,7 @@ require 'mongo_mapper'
 
 MongoMapper.connection = Mongo::Connection.new('staff.mongohq.com',10001, :pool_size => 5, :timeout => 5)
 MongoMapper.database = 'turntable'
-MongoMapper.database.authenticate('dguttman','SomePW')
+MongoMapper.database.authenticate('turntable','TurnTable')
 
 class User
   include MongoMapper::Document
