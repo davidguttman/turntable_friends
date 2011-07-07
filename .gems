@@ -1,4 +1,5 @@
 sinatra
+haml
 bson
 bson_ext
 mongo
