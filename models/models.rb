@@ -23,6 +23,7 @@ class User
   def self.similar_to(user)
     prefs = self.all_prefs
     r = Rmend.new
+    return [] if prefs[user.id.to_s].size == 0
     matches = r.top_matches(prefs, user.id.to_s, prefs.size)
     matches.map {|rating| [rating[0], User.find(rating[1])]}
   end
@@ -55,6 +56,9 @@ class User
     prefs = {}
     self.votes.each do |vote|
       prefs[vote.song_id] = vote.value == "up" ? 1 : -1
+    end
+    self.plays.each do |play|
+      prefs[play.id] = 2
     end
     prefs
   end
