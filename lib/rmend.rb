@@ -1,5 +1,25 @@
 class Rmend
   
+  
+  def simple(subjects_ratings, subject_a, subject_b)
+    subject_a_ratings = subjects_ratings[subject_a]
+    subject_b_ratings = subjects_ratings[subject_b]
+    objects = (subject_a_ratings.keys + subject_b_ratings.keys).uniq
+    
+    score = 0.0
+    
+    objects.each do |object|
+      a_rating = subject_a_ratings[object]
+      b_rating = subject_b_ratings[object]
+      
+      if a_rating and b_rating
+        score += 1 - (a_rating - b_rating).abs
+      end
+    end
+    
+    score/objects.size
+  end
+  
   # Returns a distance-based similarity score for subject_a and subject_b
   # subjects_ratings is a hash with format {"subject_a" => {"object_a" => 1.0, "object_b" => 0.0...}, "subject_b" => {"object_a" => 0.0, "object_c" => 1.0}}
   # subject_a/b are keys of interest of the subjects_ratings hash
@@ -55,7 +75,7 @@ class Rmend
   def top_matches(subjects_ratings, subject, n=5)
   	scores = subjects_ratings.map do |critic, objects|
       if true # subject != critic
-			  r = euclidean(subjects_ratings, subject, critic)
+			  r = simple(subjects_ratings, subject, critic)
 			  [r, critic]
 		  end
   	end
