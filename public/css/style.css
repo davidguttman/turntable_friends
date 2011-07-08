@@ -2,3 +2,8 @@ body {
   background-color: #fff;
   text-align: center;
 }
+
+#plot .name {
+  background: rgba(255,255,255,0.3);
+  text-align: center;
+}
