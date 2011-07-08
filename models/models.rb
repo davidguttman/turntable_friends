@@ -40,7 +40,7 @@ class User
   end
   
   def plays
-    plays = Vote.all(:user_id => self.id.to_s, :dj_id => self.id.to_s).map {|vote| vote.song.reverse
+    plays = Vote.all(:user_id => self.id.to_s, :dj_id => self.id.to_s).map {|vote| vote.song}.reverse
   end
   
   def upvotes
@@ -48,7 +48,7 @@ class User
   end
   
   def downvotes
-    votes = Vote.all(:dj_id => self.id.to_s, :value => "down").reverse    
+    votes = Vote.all(:dj_id => self.id.to_s, :value => "down").reverse 
   end
   
   def prefs
