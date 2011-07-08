@@ -1,0 +1,7 @@
+- width = 750
+- height = 750
+
+#plot{:style => "width: #{width}px; height: #{height}px; position: relative; top: 50px; left: 50px"}
+  - @locs.each do |user_id, data|
+    .name{:style => "position: absolute; left: #{data[:loc][0]*width}px; top: #{data[:loc][1]*height}px"}
+      = data[:user].name

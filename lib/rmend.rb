@@ -1,5 +1,84 @@
 class Rmend
   
+  def scaledown(prefs, rate=0.1)
+    subjects = prefs.keys
+    
+    puts " "
+    p "subjects: #{subjects}"
+    puts " "
+    
+    realdist = {}
+    subjects.each do |subject|
+      realdist[subject] ||= {}
+      scores = subjects.map do |critic|
+        r = euclidean(prefs, subject, critic, false)
+        realdist[subject][critic] = r unless r == 0
+      end
+    end
+    
+    puts " "
+    p "realdist: #{realdist}"
+    puts " "
+
+    locs = {}
+    subjects.each do |subject|
+      locs[subject] = [rand, rand]
+    end
+    
+    fakedist = {}
+    subjects.each do |subject|
+      subjects.each do |critic|
+        fakedist[subject] ||= {}
+        fakedist[subject][critic] = 0.0
+      end
+    end
+
+    last_error = nil
+    
+    (0...1000).each do |n|
+      
+      subjects.each do |subject|
+        prefs.each do |critic, objects|
+          s_x, s_y = locs[subject]
+          c_x, c_y = locs[critic]
+          fakedist[subject][critic] = ((s_x - c_x) ** 2) + ((s_y - c_y) ** 2)
+        end
+      end
+      
+      grad = {}
+      subjects.each do |subject|
+        grad[subject] = [0.0, 0.0]
+      end
+      
+      total_error = 0.0
+      subjects.each do |subject|
+        subjects.each do |critic|
+          next unless realdist[subject][critic]
+          error_term = (fakedist[subject][critic] - realdist[subject][critic])/realdist[subject][critic]
+          
+          grad[subject][0] += ((locs[subject][0] - locs[critic][0])/fakedist[subject][critic])*error_term
+          grad[subject][1] += ((locs[subject][1] - locs[critic][1])/fakedist[subject][critic])*error_term
+          
+          total_error += error_term.abs
+        end
+      end
+      
+      p "total_error: #{total_error}"
+      
+      if last_error and last_error < total_error
+        break
+      else
+        last_error = total_error
+      end
+      
+      subjects.each do |subject|
+        locs[subject][0] -= rate*grad[subject][0]
+        locs[subject][1] -= rate*grad[subject][1]
+      end
+      
+    end
+    return locs
+  end
   
   def simple(subjects_ratings, subject_a, subject_b)
     subject_a_ratings = subjects_ratings[subject_a]
@@ -23,7 +102,7 @@ class Rmend
   # Returns a distance-based similarity score for subject_a and subject_b
   # subjects_ratings is a hash with format {"subject_a" => {"object_a" => 1.0, "object_b" => 0.0...}, "subject_b" => {"object_a" => 0.0, "object_c" => 1.0}}
   # subject_a/b are keys of interest of the subjects_ratings hash
-  def euclidean(subjects_ratings, subject_a, subject_b)
+  def euclidean(subjects_ratings, subject_a, subject_b, norm=true)
     subject_a_ratings = subjects_ratings[subject_a]
     subject_b_ratings = subjects_ratings[subject_b]
     objects = (subject_a_ratings.keys + subject_b_ratings.keys).uniq
@@ -45,9 +124,13 @@ class Rmend
     if n_in_common == 0
       return 0.0
     else
-      n_common_possible = [subject_a_ratings.size, subject_b_ratings.size].max
-      common_ratio = n_in_common.to_f/n_common_possible
-      return 1 / (1 + sum_diff_sq) * common_ratio
+      if norm
+        n_common_possible = [subject_a_ratings.size, subject_b_ratings.size].max
+        common_ratio = n_in_common.to_f/n_common_possible
+        return 1 / (1 + sum_diff_sq) * common_ratio
+      else
+        return sum_diff_sq
+      end
     end
     
   end

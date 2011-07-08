@@ -28,6 +28,12 @@ class User
     matches.map {|rating| [rating[0], User.find(rating[1])]}
   end
   
+  def self.cluster_locs
+    prefs = self.all_prefs
+    r = Rmend.new
+    r.scaledown(prefs)
+  end
+  
   def self.all_prefs
     prefs = {}
     self.all.each do |user|
