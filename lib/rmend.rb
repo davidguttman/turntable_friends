@@ -29,17 +29,27 @@ class Rmend
     objects = (subject_a_ratings.keys + subject_b_ratings.keys).uniq
     
     sum_diff_sq = 0.0
+    n_in_common = 0
+    
     objects.each do |object|
       if subject_a_ratings[object] and subject_b_ratings[object]
+        n_in_common += 1
+        
         a_rating = subject_a_ratings[object].to_f || 0.0
         b_rating = subject_b_ratings[object].to_f || 0.0
         diff_sq = (a_rating - b_rating) ** 2
         sum_diff_sq += diff_sq
-      else
-        sum_diff_sq += 0.5
       end
     end
-    return 1 / (1 + sum_diff_sq)
+    
+    if n_in_common == 0
+      return 0.0
+    else
+      n_common_possible = [subject_a_ratings.size, subject_b_ratings.size].max
+      common_ratio = n_in_common.to_f/n_common_possible
+      return 1 / (1 + sum_diff_sq) * common_ratio
+    end
+    
   end
   
   # Returns pearson correlation coefficient for subject_a and b
@@ -75,7 +85,7 @@ class Rmend
   def top_matches(subjects_ratings, subject, n=5)
   	scores = subjects_ratings.map do |critic, objects|
       if true # subject != critic
-			  r = simple(subjects_ratings, subject, critic)
+			  r = euclidean(subjects_ratings, subject, critic)
 			  [r, critic]
 		  end
   	end

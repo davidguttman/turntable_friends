@@ -55,10 +55,10 @@ class User
   def prefs
     prefs = {}
     self.votes.each do |vote|
-      prefs[vote.song_id] = vote.value == "up" ? 1 : -1
+      prefs[vote.song_id] = vote.value == "up" ? 5 : 0
     end
     self.plays.each do |play|
-      prefs[play.id] = 2
+      prefs[play.id] = 5
     end
     prefs
   end
