@@ -5,11 +5,19 @@
   .similarity
     %h2
       Similar DJs
-    - User.similar_to(@user).each do |rating, user|
-      .other_user
-        = "#{rating.to_s[0..4]}: "
-        %a{:href => "/users/#{user.id}"}
-          = user.name
+    %table
+      %tr
+        %td
+          Similarity
+        %td
+          DJ          
+      - User.similar_to(@user).each do |rating, user|
+        %tr
+          %td
+            = "#{(rating*100).to_s[0..4]}"
+          %td
+            %a{:href => "/users/#{user.id}"}
+              = user.name
   
   .plays
     %h2

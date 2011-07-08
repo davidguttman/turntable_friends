@@ -10,10 +10,14 @@ class Rmend
     
     sum_diff_sq = 0.0
     objects.each do |object|
-      a_rating = subject_a_ratings[object].to_f || 0.0
-      b_rating = subject_b_ratings[object].to_f || 0.0
-      diff_sq = (a_rating - b_rating) ** 2
-      sum_diff_sq += diff_sq
+      if subject_a_ratings[object] and subject_b_ratings[object]
+        a_rating = subject_a_ratings[object].to_f || 0.0
+        b_rating = subject_b_ratings[object].to_f || 0.0
+        diff_sq = (a_rating - b_rating) ** 2
+        sum_diff_sq += diff_sq
+      else
+        sum_diff_sq += 0.5
+      end
     end
     return 1 / (1 + sum_diff_sq)
   end
