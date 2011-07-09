@@ -12,6 +12,9 @@ class Rmend
       realdist[subject] ||= {}
       scores = subjects.map do |critic|
         r = euclidean(prefs, subject, critic, false)
+        puts " "
+        p "r: #{r}"
+        puts " "
         realdist[subject][critic] = r unless r == 0
       end
     end
@@ -122,7 +125,7 @@ class Rmend
     end
     
     if n_in_common == 0
-      return 0.0
+      return 500.0
     else
       if norm
         n_common_possible = [subject_a_ratings.size, subject_b_ratings.size].max
