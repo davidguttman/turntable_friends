@@ -12,6 +12,7 @@
         %td
           DJ          
       - User.similar_to(@user).each do |rating, user|
+        - next if rating > 1
         %tr
           %td
             = "#{(rating*100).to_s[0..4]}"
