@@ -1,9 +1,13 @@
 require 'mongo_mapper'
 require 'ostruct'
 
-MongoMapper.connection = Mongo::Connection.new('staff.mongohq.com',10001, :pool_size => 5, :timeout => 5)
+# MongoMapper.connection = Mongo::Connection.new('staff.mongohq.com',10001, :pool_size => 5, :timeout => 5)
+# MongoMapper.database = 'turntable'
+# MongoMapper.database.authenticate('turntable','TurnTable')
+
+MongoMapper.connection = Mongo::Connection.new('localhost',27017, :pool_size => 5, :timeout => 5)
 MongoMapper.database = 'turntable'
-MongoMapper.database.authenticate('turntable','TurnTable')
+# MongoMapper.database.authenticate('turntable','TurnTable')
 
 class TT
   def self.add_object(object_class, object)

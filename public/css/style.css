@@ -3,6 +3,40 @@ body {
   text-align: center;
 }
 
+h1 {
+  font-size: 200%;
+}
+
+h2 {
+  font-size: 150%;
+}
+
+.info {
+  clear: both;
+  padding: 20px;
+}
+
+.info h1 {
+  padding: 10px;
+}
+
+.similarity, .plays, .history, .upvotes, .downvotes {
+  float: left;
+  margin: 20px;
+}
+
+.play {
+  margin: 10px 0;
+}
+
+.user table {
+  margin: 0 auto;
+}
+
+.user td {
+  padding: 3px;
+}
+
 #plot .name {
   background: rgba(255,255,255,0.3);
   text-align: center;

@@ -1056,7 +1056,7 @@ DGSTUFF.log_vote = function(currentVote) {
 DGSTUFF.send_to_server = function(controller, object) {
   var data = {};
   data[controller] = object;
-  $.get('http://glowing-journey-980.heroku.com/'+controller, data, function() {}, 'script');
+  $.get('http://localhost:9393/'+controller, data, function() {}, 'script');
 }
 
 // var voteLink = $('<div id="dg_current_votes">Current Votes</div>');

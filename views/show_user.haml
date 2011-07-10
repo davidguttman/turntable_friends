@@ -1,6 +1,12 @@
 .user
-  %h1
-    = @user.name
+  .info
+    .avatar
+      %img{ :src => "https://s3.amazonaws.com/static.turntable.fm/roommanager_assets/avatars/#{@user.avatarid}/headfront.png"}
+    %h1
+      = @user.name
+    .facebook
+      %a{:href => "http://facebook.com/profile.php?id=#{@user.fbid}"}
+        (on Facebook)
 
   .similarity
     %h2
@@ -12,22 +18,13 @@
         %td
           DJ          
       - User.similar_to(@user).each do |rating, user|
-        - next if rating > 1
+        - next if rating > 1 or @user.name == user.name
         %tr
           %td
             = "#{(rating*100).to_s[0..4]}"
           %td
             %a{:href => "/users/#{user.id}"}
               = user.name
-  
-  .plays
-    %h2
-      Plays
-    - @user.plays.each do |play|
-      - meta = play.meta
-      .play
-        = "#{meta.artist} - #{meta.song}"
-    
   
   .history
     %h2
@@ -48,7 +45,20 @@
             - meta = vote.song.meta
             = "#{meta.artist} - #{meta.song}"
           %td
-            = vote.dj.name if vote.dj
+            - if vote.dj
+              %a{:href => "/users/#{vote.dj.id}"}
+                = vote.dj.name 
+            
+  
+  .plays
+    %h2
+      Plays
+    - @user.plays.each do |play|
+      - meta = play.meta
+      .play
+        %img{:src => "#{meta.coverart}"}
+        %br
+        = "#{meta.artist} - #{meta.song}"
           
   .upvotes    
     %h2
